@@ -5,6 +5,7 @@ plugins {
     id("dev.flutter.flutter-gradle-plugin")
 }
 
+
 android {
     namespace = "com.example.google_places_flutter_example"
     compileSdk = flutter.compileSdkVersion
