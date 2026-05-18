@@ -1,1 +1,1 @@
-rootProject.name = 'google_places_flutter'
+rootProject.name = 'places_sdk_flutter'

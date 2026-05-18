@@ -1,6 +1,6 @@
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
-import 'google_places_flutter_method_channel.dart';
+import 'places_sdk_flutter_method_channel.dart';
 
 abstract class GooglePlacesFlutterPlatform extends PlatformInterface {
   GooglePlacesFlutterPlatform() : super(token: _token);

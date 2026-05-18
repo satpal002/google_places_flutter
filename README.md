@@ -1,6 +1,8 @@
-# google_places_flutter
+# places_sdk_flutter
 
 Flutter plugin that wraps the [Places SDK for Android](https://developers.google.com/maps/documentation/places/android-sdk/overview) and [Places SDK for iOS](https://developers.google.com/maps/documentation/places/ios-sdk/overview). Requests run through the native SDKs (not the HTTP Places Web Service).
+
+Published on pub.dev as **`places_sdk_flutter`** (the name `google_places_flutter` is already used by [another package](https://pub.dev/packages/google_places_flutter) that calls the HTTP API).
 
 > **Disclaimer:** This is an unofficial package and is not affiliated with, endorsed by, or sponsored by Google.
 
@@ -36,12 +38,11 @@ Add to `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  google_places_flutter:
-    path: ../google_places_flutter   # or your published source
+  places_sdk_flutter: ^0.0.1
 ```
 
 ```dart
-import 'package:google_places_flutter/google_places_flutter.dart';
+import 'package:places_sdk_flutter/places_sdk_flutter.dart';
 
 // Autocomplete (API key read from AndroidManifest / Info.plist)
 final predictions = await searchPlace(

@@ -1,6 +1,6 @@
 # google_places_flutter_example
 
-Demonstrates how to use the google_places_flutter plugin.
+Demonstrates how to use the places_sdk_flutter plugin.
 
 ## Getting Started
 

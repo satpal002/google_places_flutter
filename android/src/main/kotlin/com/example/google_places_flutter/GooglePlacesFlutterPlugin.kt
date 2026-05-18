@@ -30,7 +30,7 @@ class GooglePlacesFlutterPlugin :
 
     override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
         applicationContext = flutterPluginBinding.applicationContext
-        channel = MethodChannel(flutterPluginBinding.binaryMessenger, "google_places_flutter")
+        channel = MethodChannel(flutterPluginBinding.binaryMessenger, "places_sdk_flutter")
         channel.setMethodCallHandler(this)
     }
 

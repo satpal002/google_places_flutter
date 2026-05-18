@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_places_flutter/google_places_flutter.dart';
+import 'package:places_sdk_flutter/places_sdk_flutter.dart';
 
 void main() {
   runApp(const MyApp());

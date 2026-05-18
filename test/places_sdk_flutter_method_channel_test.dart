@@ -1,12 +1,12 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:google_places_flutter/google_places_flutter_method_channel.dart';
+import 'package:places_sdk_flutter/places_sdk_flutter_method_channel.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   final platform = MethodChannelGooglePlacesFlutter();
-  const channel = MethodChannel('google_places_flutter');
+  const channel = MethodChannel('places_sdk_flutter');
 
   setUp(() {
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger

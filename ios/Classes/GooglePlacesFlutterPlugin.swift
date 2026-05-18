@@ -5,7 +5,7 @@ import GooglePlaces
 public class GooglePlacesFlutterPlugin: NSObject, FlutterPlugin {
   public static func register(with registrar: FlutterPluginRegistrar) {
     let channel = FlutterMethodChannel(
-      name: "google_places_flutter",
+      name: "places_sdk_flutter",
       binaryMessenger: registrar.messenger())
     let instance = GooglePlacesFlutterPlugin()
     registrar.addMethodCallDelegate(instance, channel: channel)

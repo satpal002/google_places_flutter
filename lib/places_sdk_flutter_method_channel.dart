@@ -1,11 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
-import 'google_places_flutter_platform_interface.dart';
+import 'places_sdk_flutter_platform_interface.dart';
 
 class MethodChannelGooglePlacesFlutter extends GooglePlacesFlutterPlatform {
   @visibleForTesting
-  final methodChannel = const MethodChannel('google_places_flutter');
+  final methodChannel = const MethodChannel('places_sdk_flutter');
 
   @override
   Future<List<Map<String, dynamic>>> searchPlace({

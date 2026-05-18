@@ -1,9 +1,9 @@
 #
 # To learn more about a Podspec see http://guides.cocoapods.org/syntax/podspec.html.
-# Run `pod lib lint google_places_flutter.podspec` to validate before publishing.
+# Run `pod lib lint places_sdk_flutter.podspec` to validate before publishing.
 #
 Pod::Spec.new do |s|
-  s.name             = 'google_places_flutter'
+  s.name             = 'places_sdk_flutter'
   s.version          = '0.0.1'
   s.summary          = 'Flutter bridge to Google Places SDK on Android and iOS.'
   s.description      = <<-DESC

@@ -1,4 +1,4 @@
-import 'google_places_flutter_platform_interface.dart';
+import 'places_sdk_flutter_platform_interface.dart';
 
 /// Autocomplete row from [searchPlace].
 class PlacePrediction {
