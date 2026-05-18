@@ -22,7 +22,10 @@ public class GooglePlacesFlutterPlugin: NSObject, FlutterPlugin {
     }
   }
 
+  /// Standard Google Maps / Places Info.plist key (host app).
   private static let infoPlistApiKey = "GMSApiKey"
+  /// Fallback plist key if `GMSApiKey` is absent.
+  private static let infoPlistApiKeyAlternate = "apiKey"
 
   private func provideApiKey(_ key: String) {
     GMSPlacesClient.provideAPIKey(key)
@@ -39,11 +42,40 @@ public class GooglePlacesFlutterPlugin: NSObject, FlutterPlugin {
   }
 
   private static func readApiKeyFromInfoPlist() -> String? {
-    guard let key = Bundle.main.object(forInfoDictionaryKey: infoPlistApiKey) as? String else {
-      return nil
+    for plistKey in [infoPlistApiKey, infoPlistApiKeyAlternate] {
+      guard let key = Bundle.main.object(forInfoDictionaryKey: plistKey) as? String else {
+        continue
+      }
+      let trimmed = key.trimmingCharacters(in: .whitespacesAndNewlines)
+      if !trimmed.isEmpty {
+        return trimmed
+      }
     }
+    return nil
+  }
+
+  /// README / example plist placeholders — not usable keys.
+  private static func invalidResolvedApiKeyReason(_ key: String) -> String? {
     let trimmed = key.trimmingCharacters(in: .whitespacesAndNewlines)
-    return trimmed.isEmpty ? nil : trimmed
+    let upper = trimmed.uppercased()
+    let placeholders: Set<String> = [
+      "YOUR_PLACES_API_KEY",
+      "YOUR_API_KEY",
+      "<YOUR_API_KEY>",
+      "REPLACE_ME",
+    ]
+    guard placeholders.contains(upper) else { return nil }
+    return "GMSApiKey is still a placeholder (\(trimmed)). Replace it with a real key from Google Cloud Console (Credentials), or pass apiKey from Dart."
+  }
+
+  /// Google often returns \"invalid API key\" for restriction / wrong API issues too.
+  private static func augmentedSdkErrorMessage(_ message: String) -> String {
+    let lower = message.lowercased()
+    let looksKeyRelated =
+      lower.contains("api key") || (lower.contains("invalid") && lower.contains("key"))
+    guard looksKeyRelated else { return message }
+    return message
+      + " — In Google Cloud Console: enable Places API (New) and billing; under Credentials, either remove Application restrictions temporarily or add an iOS apps restriction whose bundle ID matches the Runner target exactly."
   }
 
   private func mainResult(_ result: @escaping FlutterResult, value: Any?) {
@@ -77,8 +109,13 @@ public class GooglePlacesFlutterPlugin: NSObject, FlutterPlugin {
         result,
         code: "INVALID_ARGUMENT",
         message:
-          "apiKey is required: pass apiKey from Dart or set \(Self.infoPlistApiKey) in Info.plist"
+          "apiKey is required: pass apiKey from Dart or set \(Self.infoPlistApiKey) (or \(Self.infoPlistApiKeyAlternate)) in Info.plist"
       )
+      return
+    }
+
+    if let msg = Self.invalidResolvedApiKeyReason(apiKey) {
+      mainError(result, code: "INVALID_ARGUMENT", message: msg)
       return
     }
 
@@ -100,7 +137,8 @@ public class GooglePlacesFlutterPlugin: NSObject, FlutterPlugin {
       sessionToken: nil
     ) { predictions, error in
       if let error = error {
-        self.mainError(result, code: "PLACE_SEARCH_FAILED", message: error.localizedDescription)
+        let msg = Self.augmentedSdkErrorMessage(error.localizedDescription)
+        self.mainError(result, code: "PLACE_SEARCH_FAILED", message: msg)
         return
       }
       let preds = predictions ?? []
@@ -119,9 +157,9 @@ public class GooglePlacesFlutterPlugin: NSObject, FlutterPlugin {
   }
 
   private func detailPlaceFields() -> GMSPlaceField {
-    var raw: UInt = 0
+    var raw: UInt64 = 0
     func add(_ field: GMSPlaceField) {
-      raw |= UInt(field.rawValue)
+      raw |= field.rawValue
     }
     add(.name)
     add(.placeID)
@@ -139,8 +177,10 @@ public class GooglePlacesFlutterPlugin: NSObject, FlutterPlugin {
     return GMSPlaceField(rawValue: raw)
   }
 
-  private static func businessStatusString(_ status: GMSPlaceBusinessStatus) -> String {
+  private static func businessStatusString(_ status: GMSPlacesBusinessStatus) -> String {
     switch status {
+    case .unknown:
+      return "UNKNOWN"
     case .operational:
       return "OPERATIONAL"
     case .closedTemporarily:
@@ -178,8 +218,13 @@ public class GooglePlacesFlutterPlugin: NSObject, FlutterPlugin {
         result,
         code: "INVALID_ARGUMENT",
         message:
-          "apiKey is required: pass apiKey from Dart or set \(Self.infoPlistApiKey) in Info.plist"
+          "apiKey is required: pass apiKey from Dart or set \(Self.infoPlistApiKey) (or \(Self.infoPlistApiKeyAlternate)) in Info.plist"
       )
+      return
+    }
+
+    if let msg = Self.invalidResolvedApiKeyReason(apiKey) {
+      mainError(result, code: "INVALID_ARGUMENT", message: msg)
       return
     }
 
@@ -190,7 +235,8 @@ public class GooglePlacesFlutterPlugin: NSObject, FlutterPlugin {
     client.fetchPlace(fromPlaceID: placeId, placeFields: fields, sessionToken: nil) {
       (place: GMSPlace?, error: Error?) in
       if let error = error {
-        self.mainError(result, code: "PLACE_DETAILS_FAILED", message: error.localizedDescription)
+        let msg = Self.augmentedSdkErrorMessage(error.localizedDescription)
+        self.mainError(result, code: "PLACE_DETAILS_FAILED", message: msg)
         return
       }
       guard let place = place else {
@@ -205,7 +251,7 @@ public class GooglePlacesFlutterPlugin: NSObject, FlutterPlugin {
         "placeId": place.placeID,
         "name": place.name,
         "formattedAddress": place.formattedAddress,
-        "addressComponents": addressComponentsToList(place),
+        "addressComponents": self.addressComponentsToList(place),
         "latitude": coord.latitude,
         "longitude": coord.longitude,
         "phoneNumber": place.phoneNumber,
