@@ -38,7 +38,7 @@ Add to `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  places_sdk_flutter: ^0.0.1
+  places_sdk_flutter: ^0.0.2
 ```
 
 ```dart

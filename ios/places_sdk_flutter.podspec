@@ -4,7 +4,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'places_sdk_flutter'
-  s.version          = '0.0.1'
+  s.version          = '0.0.2'
   s.summary          = 'Flutter bridge to Google Places SDK on Android and iOS.'
   s.description      = <<-DESC
 Wraps the official Google Places SDK for Android and Google Places SDK for iOS
