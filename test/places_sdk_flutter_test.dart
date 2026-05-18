@@ -32,6 +32,13 @@ class MockGooglePlacesFlutterPlatform with MockPlatformInterfaceMixin implements
       'placeId': placeId,
       'name': 'N',
       'formattedAddress': 'A',
+      'addressComponents': [
+        {
+          'long_name': 'Dubai',
+          'short_name': 'Dubai',
+          'types': ['locality', 'political'],
+        },
+      ],
       'latitude': 1.0,
       'longitude': 2.0,
       'types': <String>['point_of_interest'],
@@ -60,5 +67,8 @@ void main() {
     expect(d.placeId, 'pid');
     expect(d.name, 'N');
     expect(d.latitude, 1.0);
+    expect(d.addressComponents, hasLength(1));
+    expect(d.addressComponents.single.longName, 'Dubai');
+    expect(d.addressComponents.single.types, contains('locality'));
   });
 }

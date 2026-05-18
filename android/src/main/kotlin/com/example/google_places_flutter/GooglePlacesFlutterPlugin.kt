@@ -170,6 +170,7 @@ class GooglePlacesFlutterPlugin :
                 Place.Field.ID,
                 Place.Field.DISPLAY_NAME,
                 Place.Field.FORMATTED_ADDRESS,
+                Place.Field.ADDRESS_COMPONENTS,
                 Place.Field.LOCATION,
                 Place.Field.NATIONAL_PHONE_NUMBER,
                 Place.Field.WEBSITE_URI,
@@ -201,6 +202,17 @@ class GooglePlacesFlutterPlugin :
             }
     }
 
+    private fun addressComponentsToList(place: Place): List<Map<String, Any?>> {
+        val components = place.addressComponents?.asList().orEmpty()
+        return components.map { component ->
+            mapOf(
+                "long_name" to component.name,
+                "short_name" to (component.shortName ?: component.name),
+                "types" to (component.types ?: emptyList()),
+            )
+        }
+    }
+
     private fun placeToMap(place: Place): Map<String, Any?> {
         val latLng = place.location
         val weekdayText = place.openingHours?.weekdayText
@@ -209,6 +221,7 @@ class GooglePlacesFlutterPlugin :
             "placeId" to place.id,
             "name" to place.displayName,
             "formattedAddress" to place.formattedAddress,
+            "addressComponents" to addressComponentsToList(place),
             "latitude" to latLng?.latitude,
             "longitude" to latLng?.longitude,
             "phoneNumber" to place.nationalPhoneNumber,

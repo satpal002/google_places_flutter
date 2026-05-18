@@ -1,6 +1,6 @@
 name: places_sdk_flutter
 description: Flutter plugin wrapping the official Google Places SDK on Android and iOS (autocomplete search + place details).
-version: 0.0.2
+version: 0.0.3
 homepage: https://github.com/satpal002/google_places_flutter
 repository: https://github.com/satpal002/google_places_flutter
 issue_tracker: https://github.com/satpal002/google_places_flutter/issues

@@ -23,7 +23,11 @@ void main() {
             },
           ];
         case 'getPlaceDetails':
-          return {'placeId': methodCall.arguments['placeId'], 'name': 'X'};
+          return {
+            'placeId': methodCall.arguments['placeId'],
+            'name': 'X',
+            'addressComponents': <Map<String, dynamic>>[],
+          };
         default:
           return null;
       }

@@ -126,6 +126,7 @@ public class GooglePlacesFlutterPlugin: NSObject, FlutterPlugin {
     add(.name)
     add(.placeID)
     add(.formattedAddress)
+    add(.addressComponents)
     add(.coordinate)
     add(.phoneNumber)
     add(.website)
@@ -148,6 +149,17 @@ public class GooglePlacesFlutterPlugin: NSObject, FlutterPlugin {
       return "CLOSED_PERMANENTLY"
     @unknown default:
       return String(describing: status)
+    }
+  }
+
+  private func addressComponentsToList(_ place: GMSPlace) -> [[String: Any?]] {
+    guard let components = place.addressComponents else { return [] }
+    return components.map { component in
+      [
+        "long_name": component.name,
+        "short_name": component.shortName ?? component.name,
+        "types": component.types,
+      ]
     }
   }
 
@@ -193,6 +205,7 @@ public class GooglePlacesFlutterPlugin: NSObject, FlutterPlugin {
         "placeId": place.placeID,
         "name": place.name,
         "formattedAddress": place.formattedAddress,
+        "addressComponents": addressComponentsToList(place),
         "latitude": coord.latitude,
         "longitude": coord.longitude,
         "phoneNumber": place.phoneNumber,

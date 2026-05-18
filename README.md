@@ -38,7 +38,7 @@ Add to `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  places_sdk_flutter: ^0.0.2
+  places_sdk_flutter: ^0.0.3
 ```
 
 ```dart
@@ -68,7 +68,9 @@ print(details.latitude);
 | `searchPlace` | Android: `findAutocompletePredictions` · iOS: `findAutocompletePredictions` |
 | `getPlaceDetails` | Android: `fetchPlace` · iOS: `fetchPlace(fromPlaceID:)` |
 
-Models: `PlacePrediction`, `PlaceDetails`.
+Models: `PlacePrediction`, `PlaceDetails`, `AddressComponent`.
+
+`PlaceDetails.addressComponents` uses the standard Google Places shape (`long_name`, `short_name`, `types`) and is always a list (empty when unavailable).
 
 ## Example app
 

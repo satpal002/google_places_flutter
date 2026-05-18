@@ -1,5 +1,35 @@
 import 'places_sdk_flutter_platform_interface.dart';
 
+/// A structured part of a place address (street, city, country, etc.).
+///
+/// Field names match the [Google Places address component](https://developers.google.com/maps/documentation/places/web-service/place-types#address-types)
+/// JSON shape (`long_name`, `short_name`, `types`) for compatibility with map pickers.
+class AddressComponent {
+  const AddressComponent({
+    required this.longName,
+    required this.shortName,
+    required this.types,
+  });
+
+  final String longName;
+  final String shortName;
+  final List<String> types;
+
+  factory AddressComponent.fromMap(Map<String, dynamic> map) {
+    return AddressComponent(
+      longName: map['long_name'] as String? ?? map['longName'] as String? ?? '',
+      shortName: map['short_name'] as String? ?? map['shortName'] as String? ?? '',
+      types: (map['types'] as List<dynamic>?)?.map((e) => '$e').toList() ?? const [],
+    );
+  }
+
+  Map<String, dynamic> toMap() => {
+        'long_name': longName,
+        'short_name': shortName,
+        'types': types,
+      };
+}
+
 /// Autocomplete row from [searchPlace].
 class PlacePrediction {
   const PlacePrediction({
@@ -42,11 +72,13 @@ class PlaceDetails {
     this.businessStatus,
     this.types = const [],
     this.weekdayText,
+    this.addressComponents = const [],
   });
 
   final String placeId;
   final String? name;
   final String? formattedAddress;
+  final List<AddressComponent> addressComponents;
   final double? latitude;
   final double? longitude;
   final String? phoneNumber;
@@ -62,6 +94,10 @@ class PlaceDetails {
       placeId: map['placeId'] as String? ?? '',
       name: map['name'] as String?,
       formattedAddress: map['formattedAddress'] as String?,
+      addressComponents: (map['addressComponents'] as List<dynamic>?)
+              ?.map((e) => AddressComponent.fromMap(Map<String, dynamic>.from(e as Map)))
+              .toList() ??
+          const [],
       latitude: (map['latitude'] as num?)?.toDouble(),
       longitude: (map['longitude'] as num?)?.toDouble(),
       phoneNumber: map['phoneNumber'] as String?,
