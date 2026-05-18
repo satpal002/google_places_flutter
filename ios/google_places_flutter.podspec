@@ -10,9 +10,9 @@ Pod::Spec.new do |s|
 Wraps the official Google Places SDK for Android and Google Places SDK for iOS
 (autocomplete search and place details).
                        DESC
-  s.homepage         = 'https://github.com/example/google_places_flutter'
+  s.homepage         = 'https://github.com/satpal002/google_places_flutter'
   s.license          = { :file => '../LICENSE' }
-  s.author           = { 'Your Company' => 'email@example.com' }
+  s.author           = { 'Satpal Yadav' => 'satpal002@gmail.com' }
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'

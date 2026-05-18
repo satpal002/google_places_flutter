@@ -1,3 +1,3 @@
 ## 0.0.1
 
-* TODO: Describe initial release.
+* Initial release: Google Places SDK autocomplete and place details for Android and iOS.

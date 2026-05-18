@@ -1,6 +1,8 @@
 # google_places_flutter
 
-Flutter plugin that wraps the **official** [Places SDK for Android](https://developers.google.com/maps/documentation/places/android-sdk/overview) and [Places SDK for iOS](https://developers.google.com/maps/documentation/places/ios-sdk/overview). Requests run through the native SDKs (not the HTTP Places Web Service).
+Flutter plugin that wraps the [Places SDK for Android](https://developers.google.com/maps/documentation/places/android-sdk/overview) and [Places SDK for iOS](https://developers.google.com/maps/documentation/places/ios-sdk/overview). Requests run through the native SDKs (not the HTTP Places Web Service).
+
+> **Disclaimer:** This is an unofficial package and is not affiliated with, endorsed by, or sponsored by Google.
 
 ## Setup
 
